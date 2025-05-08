@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../Utils/healper';
 import Input from '../../components/Inputs/Input';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
+import axiosInstance from '../../Utils/axiosInstance';
+import { API_PATHS } from '../../Utils/ApiPath';
+import { UserContext } from '../../Context/userContext';
+import uploadImage from '../../Utils/uploadImage';
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -10,12 +14,15 @@ const SignUp = ({ setCurrentPage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    let profileImageUrl = '';
 
+    // Input Validation
     if (!fullName) {
       setError('Please enter your full name.');
       return;
@@ -32,22 +39,44 @@ const SignUp = ({ setCurrentPage }) => {
     setError(null); // Clear errors
 
     try {
-      // Implement sign-up logic here, such as API calls
+      // Upload profile picture
+      if (profilePic) {
+        const imageUploadResponse = await uploadImage(profilePic);
+        profileImageUrl = imageUploadResponse || '';
+      }
+
+      // Send signup request
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem('token', token);
+        updateUser(response.data);
+        navigate('/dashboard');
+      }
     } catch (error) {
-      setError('An error occurred while signing up. Please try again.');
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
     }
   };
 
   return (
-    <div className="w-[90vw] md:w-[33vw] p-7 flex  flex-col justify-center">
+    <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
       <h3 className="text-lg font-semibold text-black">Create An Account</h3>
       <p className="text-xs text-slate-700 mt-2 mb-6">
         Join us today by entering your details
       </p>
 
       <form onSubmit={handleSignup}>
-
-      <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+        <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
         <Input
           value={fullName}
@@ -76,10 +105,7 @@ const SignUp = ({ setCurrentPage }) => {
 
         {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
 
-        <button
-          type="submit"
-          className="btn-primary w-full"
-        >
+        <button type="submit" className="btn-primary w-full">
           SIGN UP
         </button>
 

@@ -7,10 +7,11 @@ import Dashboard from './Pages/Home/Dashboard';
 import EditResume from './Pages/ResumeUpdate/EditResume';
 import { Toaster } from 'react-hot-toast';
 import LandingPage from './Pages/LandinPage';
+import UserProvider from './Context/userContext';
 
 const App = () => {
   return (
-    <>
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -28,7 +29,7 @@ const App = () => {
           },
         }}
       />
-    </>
+    </ UserProvider>
   );
 };
 

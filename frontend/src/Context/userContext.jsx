@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../Utils/axiosInstance";
-import API_PATHS from "../Utils/ApiPath";
+import { API_PATHS } from "../Utils/ApiPath";
 
 // Create the UserContext
 export const UserContext = createContext();
@@ -33,7 +33,7 @@ const UserProvider = ({ children }) => {
         };
 
         fetchUser();
-    }, []); // Add `user` to the dependency array
+    }, []);
 
     // Update user details and token
     const updateUser = (userData) => {
