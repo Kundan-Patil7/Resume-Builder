@@ -5,10 +5,10 @@ const Modal = ({
   isOpen,
   onClose,
   title,
-  hideHeader = false,
-  ShowActionBtn = false,
+  hideHeader ,
+  ShowActionBtn ,
   actionBtnIcon = null,
-  actionBtnText = 'Action',
+  actionBtnText ,
   onActionClick = () => {},
 }) => {
   if (!isOpen) return null;
@@ -16,18 +16,33 @@ const Modal = ({
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/40">
       {/* Modal Content */}
-      <div className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden w-11/12 max-w-lg">
+      <div className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden ">
         {/* Modal Header */}
         {!hideHeader && (
-          <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          
+          <div className="flex  items-center justify-between p-4 border-b border-gray-200">
+          <h3 className='md:text-lg font-medium text-gray-900 '>{title}</h3>
+           
+           
+           { ShowActionBtn &&  (
+           <button className='btn-small-llight me-12 '
+           onClick={onActionClick()}
+           >
+
+{actionBtnIcon}
+{actionBtnText}
+
+           </button>
+          ) }
+           </div>
+        )}
+           
             <button
               type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5"
               onClick={onClose}
             >
               <svg
-                className="w-4 h-4"
+                className="w-3 h-3"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -42,8 +57,8 @@ const Modal = ({
                 />
               </svg>
             </button>
-          </div>
-        )}
+          
+       
 
         {/* Modal Body (Scrollable) */}
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4">{children}</div>
