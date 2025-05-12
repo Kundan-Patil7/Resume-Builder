@@ -23,7 +23,14 @@ const LandingPage = () => {
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <header className="flex justify-between items-center mb-16">
-          <div className="text-xl font-bold">Resume Builder</div>
+          <div className="text-2xl font-bold   " 
+          style={{
+              background: "linear-gradient(135deg, #00FF7F, #1E90FF, #FF69B4, #FFD700, #9400D3)",
+              backgroundSize: "300% 300%",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "pattern-animation 5s ease infinite",
+            }}>Resume Builder</div>
          { user ?  <ProfileInfocard />   : <button
             className="bg-purple-100 text-sm font-semibold text-black px-4 py-2.5  rounded-lg hover:bg-gray-700 hover:text-white transition-colors cursor-pointer"
             onClick={() => setOpenAuthModal(true)}
@@ -37,9 +44,9 @@ const LandingPage = () => {
           <div className="w-full md:w-1/2 pr-4 mb-8 md:mb-0">
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Build Your{" "}
-              <span className="text-transparent bg-clip-text bg-[radial-gradient(circle,_#7182ff_0%,_#3cff52_100%)] animate-flowing-gradient">
-  Resume Effortlessly
-</span>
+              <span className="flowing-radial-text">
+      Resume Effortlessly
+    </span>
 
             </h1>
             <p className="text-lg text-gray-700 mb-8">

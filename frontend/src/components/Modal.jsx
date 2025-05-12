@@ -63,7 +63,7 @@ const Modal = ({
         {/* Modal Body (Scrollable) */}
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4">{children}</div>
 
-        {/* Modal Footer (Action Button) */}
+        {/* Modal Footer (Action Button)
         {ShowActionBtn && (
           <div className="flex justify-end p-4 border-t border-gray-200">
             <button
@@ -74,7 +74,7 @@ const Modal = ({
               {actionBtnText}
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
